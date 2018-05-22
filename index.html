@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crystals!</title>
+
+    <!-- Added link to the jQuery Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Added a link to Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+</head>
+<!-- Style elements -->
+<style type="text/css">
+
+    .jumbotron {
+        text-align: center;
+        padding: 10px 10px 10px 10px;
+            }
+
+   
+    .col {
+        font-weight: bold;
+        text-align: center;
+    }
+    .crystal-image {
+      width: 250px;
+      height: 250px;
+    }
+
+    .score-board {
+        text-align: center;
+        padding: 25px;
+    }
+    .player {
+        display: inline-block;
+        padding: 15px;
+    }
+    .player h4 {
+        font-weight: bold;
+    }
+    .score-box {
+        border: 3px solid black;
+        padding: 30px;
+        color: rgb(233, 31, 223);
+        font-weight: bold;
+    }
+  </style>
+<body>
+
+
+<!-- basic html elements -->
+    <!-- header -->
+<div class="container">
+    <div class="jumbotron">
+        <h1>Crystal Collector</h1>      
+        <p text-align: center>Welcome to the crystal collector game.</p>
+        <p>You will be given a target score to match generated randomly at the beginning of the game.</p>
+        <p>Clicking each of the four images will increase your score by some increment.</p>
+        <p>You must equal but not go over the Score to Match in order to win. If you go over, you lose.</p>
+        <p>Each time the game starts, the value of each crystal's increment changes.</p>
+        
+    </div>
+    <p></p>      
+    <!-- Wins and Losses -->
+
+    
+    <div class="row">
+            
+            <div class="col">
+                    <p>Wins:
+                            <span id="wins"></span></p>
+            </div>
+    </div>
+    <div class="row">
+            <div class="col">
+             <p>Losses:
+                    <span id="losses"></span></p>
+            </div>
+    </div> 
+    
+    
+    <!-- jumbotron with score to beat -->
+    <div class="score-board">
+            <div class="player">
+              <h4>Score To Match</h4>
+              <div class="score-box" id="score-to-match">
+                15
+              </div>
+            </div>
+            <div class="player">
+              <h4>Your Score</h4>
+              <div class="score-box" id="player-score">
+                  0
+                </div>
+            </div>
+          </div>
+    
+    
+    <!-- line break -->
+    <!-- four crystals -->
+    <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-3" style="background-color:lavender;">
+                    <div id="crystal1">
+
+                            <img class="crystal-image" src="assets/images/image1.jpg" alt="crystals">
+                    
+                    </div>          
+              </div>
+              <div class="col-sm-3" style="background-color:lavenderblush;">
+                    <div id="crystal2">
+
+                            <img class="crystal-image" src="assets/images/image2.jpg" alt="crystals">
+                    
+                    </div>
+              </div>
+              <div class="col-sm-3" style="background-color:lavender;">
+                  <div id="crystal3">
+
+                    <img class="crystal-image" src="assets/images/image3.jpg" alt="crystals">
+            
+                </div>
+            </div>
+              <div class="col-sm-3" style="background-color:lavenderblush;">
+                    <div id="crystal4">
+
+                            <img class="crystal-image" src="assets/images/image4.jpg" alt="crystals">
+                    
+                    </div>
+              </div>
+            </div>
+          
+        
+    </div>  
+   
+</div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+//  Script Code
+$(document).ready()
+//Generate score to match and configure crystal increment values
+var wins = 0;
+var losses =0;
+var scoreToMatch;
+var crystal1IncrementValue;
+var crystal2IncrementValue;
+var crystal3IncrementValue;
+var crystal4IncrementValue;
+
+resetGame();
+$('#wins').text(wins);
+$('#losses').text(losses);
+
+function crytalIncrementValue() {
+    incrementValue = Math.floor(Math.random()*12+1);
+    console.log(incrementValue);
+    return incrementValue;
+}
+function setScoreboardValues(targetElement, valueToInsert) {
+            document.getElementById(targetElement).textContent = valueToInsert;
+        }
+
+function resetGame() {
+    scoreToMatch = Math.floor(Math.random()*100+20);
+    crystal1IncrementValue = crytalIncrementValue();
+    crystal2IncrementValue = crytalIncrementValue();
+    crystal3IncrementValue = crytalIncrementValue();
+    crystal4IncrementValue = crytalIncrementValue();
+        $('#score-to-match').text(scoreToMatch);
+        playerScore=0;
+        $('#player-score').text(playerScore);
+
+}
+$('#score-to-match').text(scoreToMatch);
+
+// Calculate Player Score  
+ var playerScore = 0;
+$("#crystal1").on("click", ".crystal-image", function() {
+
+// Each time the user clicks crystal 1 the counter goes up by 1's increment value
+    playerScore += crystal1IncrementValue;
+    $("#player-score").text(playerScore);
+    checkscore(wins, losses);
+});
+
+$("#crystal2").on("click", ".crystal-image", function() {
+
+// Each time the user clicks crystal 2 the counter goes up by 2's increment value
+    playerScore += crystal2IncrementValue;
+    $("#player-score").text(playerScore);
+    checkscore(wins, losses);
+});
+
+$("#crystal3").on("click", ".crystal-image", function() {
+
+// Each time the user clicks crystal 3 the counter goes up by 3's increment value
+    playerScore += crystal3IncrementValue;
+    $("#player-score").text(playerScore);
+    checkscore(wins, losses);
+});
+
+$("#crystal4").on("click", ".crystal-image", function() {
+
+// Each time the user clicks crystal 4 the counter goes up by value of 4's increment value
+    playerScore += crystal4IncrementValue;;
+    $("#player-score").text(playerScore);
+    checkscore(wins, losses);
+// console.log("wins: outside function" + wins);
+// console.log("losses: outside function" + losses);
+});
+
+function checkscore(wins,losses){
+  if (playerScore === scoreToMatch) {
+     wins++;
+     console.log("wins: " + wins)
+      alert("You win!");
+      $('#wins').text(wins);
+    //   return wins;
+    resetGame();
+          }
+
+    else if (playerScore>= scoreToMatch) {
+      losses++;
+      console.log("losses" + losses);
+      alert("You lose!!");
+      $('#losses').text(losses);
+    //   return losses;
+    //   $('#losses').empty();
+    resetGame();
+      
+    }
+// resetGame();
+
+    }
+
+</script>
+</body>
+</html>
